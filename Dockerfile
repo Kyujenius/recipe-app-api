@@ -1,4 +1,4 @@
-FROM python:3.9-alpine3.13
+FROM python:3.9-alpine3.12
 LABEL maintainer="kyujin_dockertest.com"
 
 ENV PYTHONUNBUFFERED 1
@@ -9,7 +9,7 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
-ARG DEV=true
+ARG DEV=false
 
 RUN python -m venv /py && \ 
     /py/bin/pip install --upgrade pip &&\
