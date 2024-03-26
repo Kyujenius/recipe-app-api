@@ -14,11 +14,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['email', 'password', 'name']
         extra_kwargs = {'password': {'write_only' :True, 'min_length': 5}}
 
+    # Post 요청이 오게 되면 실행될 함수
     def create(self,validated_data):
         """Create and return a user with encrypted password."""
         created_user = get_user_model().objects.create_user(**validated_data)
         return created_user
-
+    
+    # Update 요청이 오게 되면 실행될 함수
     def update(self, instance, validated_data):
         """Update and return user."""
         password= validated_data.pop('password',None)
@@ -32,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
     
 
     
-class AuthTokenSerializer(serializers.Serializer):
+class   AuthTokenSerializer(serializers.Serializer):
     """Serializer for the user auth token """
     email = serializers.EmailField()
     password = serializers.CharField(
@@ -40,6 +42,7 @@ class AuthTokenSerializer(serializers.Serializer):
         trim_whitespace =False,
     )
 
+    #특정 계정에 대해 POST 요청이 오면 주게 되는 것은 token 값이다. 
     def validate(self, attrs):
         """Validate and authenticate athe user."""
         email = attrs.get('email')
