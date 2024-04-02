@@ -12,13 +12,15 @@ from rest_framework.test import APIClient
 
 from core.models import Recipe
 
-from recipe.serializers import RecipeSerializer
+from recipe.serializers import (RecipeSerializer,
+                                )
 
 
 RECIPES_URL = reverse('recipe:recipe-list')
 
-def create_recipe(user,**params):
+def create_recipe(user, **params):
     """Create and return a sample recipe."""
+
     defaults = {
         'title' : 'Sample recipe title',
         'time_minutes': 22,
@@ -26,9 +28,9 @@ def create_recipe(user,**params):
         'description' : "Sample description",
         'link' : 'http://example.com/recipe.pdf'
     }
-    defaults.update(params)
+    defaults.update(params) 
 
-    recipe = Recipe.objects.create(user=user, **defaults)
+    recipe = Recipe.objects.create(user = user, **defaults)
     return recipe
 
 
@@ -53,11 +55,11 @@ class PrivateRecipeAPITests(TestCase):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
             'user@example.com',
-            'testpassword123'
+            'testpass123'
         ),
         self.client.force_authenticate(self.user)
 
-    def test_retrive_recipes(self):
+    def test_retrieve_recipes(self):
         """Test retrieving a list of recipes""" 
         create_recipe(user=self.user)
         create_recipe(user=self.user)
